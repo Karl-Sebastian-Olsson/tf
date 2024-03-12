@@ -1,0 +1,6 @@
+h1 test all images 
+ol
+    - images.each do |x|
+        li 
+            h2 #{x["Title"]}
+            img src="#{x["Url"]}"
