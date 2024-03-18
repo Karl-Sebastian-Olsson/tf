@@ -1,3 +1,9 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
 body {
     background-image: url("/img/background.png");
     color: #ffeb99;
@@ -8,19 +14,20 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     width: 90%;
-    height: fit-content + 20px;
+    height: fit-content;
     margin: 0 auto;
     background-color: blue;
 }
 
 .gallery_card {
     background-color: darkslategray;
-    width: 24.5%;
+    width: 25%;
     height: fit-content;
 }
 
 .gallery_card img {
     width: 100%;
+    height: auto;
     aspect-ratio: 1/1;
     object-fit: cover;
 }

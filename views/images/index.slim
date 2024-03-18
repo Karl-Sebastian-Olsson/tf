@@ -9,6 +9,7 @@ h2 Gallery
                 else 
                     h2 #{x["Title"]}
                 end
-            img src="#{x["Url"]}" alt="ÄNDRA SÅ DEN BLIR DYNAMISK, LÄGG TILL KOLUMN I DATABAS" onerror="this.src='/img/404.png'"
+            a href="gallery/#{x["Iid"]}"
+                img src="#{x["Url"]}" alt="ÄNDRA SÅ DEN BLIR DYNAMISK, LÄGG TILL KOLUMN I DATABAS" onerror="this.src='/img/404.png'"
             form method="post" action="/gallery/#{x["Iid"]}/delete"
                 input type="submit" value="Delete"
