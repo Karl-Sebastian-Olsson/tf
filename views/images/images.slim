@@ -2,5 +2,9 @@ h1 test all images
 ol
     - images.each do |x|
         li 
-            h2 #{x["Title"]}
-            img src="#{x["Url"]}"
+            a href="images/#{x["Iid"]}"
+                h2 #{x["Title"]}
+            img src="#{x["Url"]}" alt="TEMP"
+            p images/#{x["Iid"]}/delete
+            form method="POST" action="images/#{x["Iid"]}/delete"
+                input type="submit" value="Delete"
