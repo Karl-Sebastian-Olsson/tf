@@ -1,4 +1,6 @@
 h1 test show image 
-p #{result}x
+p #{result}
 h2 #{result["Title"]}
 img src="#{result["Url"]}" alt="TEMP"/
+form method="post" action="/gallery/#{result["Iid"]}/delete"
+    input type="submit" value="Delete"

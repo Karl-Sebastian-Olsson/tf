@@ -2,3 +2,25 @@ body {
     background-image: url("/img/background.png");
     color: #ffeb99;
 }
+
+.gallery_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+    height: fit-content + 20px;
+    margin: 0 auto;
+    background-color: blue;
+}
+
+.gallery_card {
+    background-color: darkslategray;
+    width: 24.5%;
+    height: fit-content;
+}
+
+.gallery_card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
