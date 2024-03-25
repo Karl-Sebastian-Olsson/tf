@@ -1,6 +1,10 @@
-h1 test show image 
-p #{result}
-h2 #{result["Title"]}
-img src="#{result["Url"]}" alt="TEMP"/
+- if result["Title"].empty?
+    h2 Mystical 404 
+else 
+    h2 #{result["Title"]}
+end
+img src="#{result["Url"]}" onerror="this.src='/img/404.png'"
+a href="#{result["Iid"]}/edit" 
+    button Edit
 form method="post" action="/gallery/#{result["Iid"]}/delete"
     input type="submit" value="Delete"

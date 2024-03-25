@@ -2,14 +2,17 @@ h2 Gallery
 
 .gallery_wrapper 
     - result.each do |x|
-        .gallery_card
-            a href="gallery/#{x["Iid"]}"
-                - if x["Title"].empty?
-                    h2 Mystical 404
-                else 
-                    h2 #{x["Title"]}
-                end
-            a href="gallery/#{x["Iid"]}"
-                img src="#{x["Url"]}" alt="ÄNDRA SÅ DEN BLIR DYNAMISK, LÄGG TILL KOLUMN I DATABAS" onerror="this.src='/img/404.png'"
-            form method="post" action="/gallery/#{x["Iid"]}/delete"
-                input type="submit" value="Delete"
+        .gallery_card 
+            .card_content 
+                a href="gallery/#{x["Iid"]}"
+                    - if x["Title"].empty?
+                        h2 Mystical 404
+                    else 
+                        h2 #{x["Title"]}
+                    end
+                a href="gallery/#{x["Iid"]}"
+                    img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
+                a href="gallery/#{x["Iid"]}/edit" 
+                    button Edit
+                form method="post" action="/gallery/#{x["Iid"]}/delete"
+                    input type="submit" value="Delete"

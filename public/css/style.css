@@ -5,8 +5,8 @@
 }
 
 body {
-    background-image: url("/img/background.png");
-    color: #ffeb99;
+    background-color: #030201;
+    color: #fafafa;
 }
 
 .gallery_wrapper {
@@ -16,16 +16,21 @@ body {
     width: 90%;
     height: fit-content;
     margin: 0 auto;
-    background-color: blue;
+    padding: 5px;
+    border: 2px solid #fafafa;
 }
 
 .gallery_card {
-    background-color: darkslategray;
     width: 25%;
     height: fit-content;
+    padding: 5px;
 }
 
-.gallery_card img {
+.card_content {
+    border: #fafafa solid 2px;
+}
+
+.card_content img {
     width: 100%;
     height: auto;
     aspect-ratio: 1/1;
