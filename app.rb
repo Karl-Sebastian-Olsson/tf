@@ -2,12 +2,14 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'slim'
 require 'sqlite3'
+require_relative './model/model.rb'
 
 get('/') do 
     slim(:start)
 end 
  
-# I DATABASEN LÄGG TILL BILDBESKRIVNING
+# I DATABASEN LÄGG TILL BILDBESKRIVNING AKA TEXT TILL BILDEN MAN LADDAR UPP
+# VARJE BILD SKA HA ETT USER ID ATTACHED SÅ VI VET VEM SOM UPLOADADE VAD 
 
 
 get('/gallery') do 
@@ -24,6 +26,8 @@ end
 post('/gallery/new') do 
     title = params[:title]
     url = params[:url]
+    # HÄR VEM SOM POSTAR TA UID
+    # OCKSÅ TEXT TILLÄGG 
     db = SQLite3::Database.new("model/db/store.db")
     db.execute("INSERT INTO Images (Title, Url) VALUES (?, ?)", title, url)
     redirect('/gallery')
