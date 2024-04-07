@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'slim'
 require 'sqlite3'
+require 'bcrypt'
 require_relative './model/model.rb'
 
 get('/') do 
@@ -61,6 +62,29 @@ post('/gallery/:id/update') do
     title = params[:title]
     url = params[:url]
     db = SQLite3::Database.new("model/db/store.db")
-    db.execute("UPDATE Images SET Title=?,Url=? WHERE Iid = ?",title,url,id)
+    db.execute("UPDATE Images SET Title=?,Url=? WHERE Iid = ?",title, url, id)
     redirect('/gallery')
+end 
+
+get('/user/new') do 
+    slim(:"register")
+end 
+
+post('/user/new') do
+    username = params[:user]
+    email = params[:email]
+    pswd = params[:pswd]
+    pswd_confirm = params[:pswd_confirm]
+    if (pswd == pswd_confirm) 
+        pswd_digest = BCrypt::Password.create(pswd)
+        db = SQLite3::Database.new("model/db/store.db")
+        db.execute("INSERT INTO Users (Name, Email, Pswd) VALUES (?, ?, ?)", username, email, pswd_digest)
+        redirect('/')
+    else 
+        "FELAKTIGT LÖSENORD BRUH"
+    end 
+end 
+
+post('/login') do 
+    d
 end 
