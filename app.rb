@@ -5,15 +5,19 @@ require 'sqlite3'
 require 'bcrypt'
 require_relative './model/model.rb'
 
+enable :sessions 
+
 get('/') do 
     slim(:start)
 end 
  
 # I DATABASEN LÄGG TILL BILDBESKRIVNING AKA TEXT TILL BILDEN MAN LADDAR UPP
 # VARJE BILD SKA HA ETT USER ID ATTACHED SÅ VI VET VEM SOM UPLOADADE VAD 
-
+#KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
 
 get('/gallery') do 
+    Uid = session[:Uid].to_i
+
     db = SQLite3::Database.new("model/db/store.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM Images")
@@ -75,7 +79,7 @@ post('/user/new') do
     email = params[:email]
     pswd = params[:pswd]
     pswd_confirm = params[:pswd_confirm]
-    if (pswd == pswd_confirm) 
+    if pswd == pswd_confirm
         pswd_digest = BCrypt::Password.create(pswd)
         db = SQLite3::Database.new("model/db/store.db")
         db.execute("INSERT INTO Users (Name, Email, Pswd) VALUES (?, ?, ?)", username, email, pswd_digest)
@@ -85,6 +89,23 @@ post('/user/new') do
     end 
 end 
 
-post('/login') do 
-    d
+get('/login') do
+    slim(:"login")
 end 
+
+post('/login') do 
+    username = params[:user]
+    pswd = params[:pswd]
+    db = SQLite3::Database.new("model/db/store.db")
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM Users WHERE name = ?", username).first
+    pswd_digest = result["Pswd"]
+    Uid = result["Uid"]
+    if BCrypt::Password.new(pswd_digest) == pswd
+        session[:Uid] = Uid
+        redirect('/')
+    else
+        "FEL INLOGG NOOB" 
+    end 
+end 
+
