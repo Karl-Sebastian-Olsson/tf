@@ -1,28 +1,20 @@
 h2 Gallery 
 
-.gallery_wrapper 
+.gallery_wrapper
     - result.each do |x|
-        .gallery_card 
-            .card_content 
-                a href="gallery/#{x["Iid"]}"
-                    - if x["Title"].empty?
-                        h2 Mystical 404
-                    else 
-                        h2 #{x["Title"]} #{role}
-                    end
+        .gallery_container
+            .gallery_card
                 a href="gallery/#{x["Iid"]}"
                     img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
-                - if role == "Admin"
-                    a href="gallery/#{x["Iid"]}/edit" 
-                        button Edit
+                a href="gallery/#{x["Iid"]}"
+                    - if x["Title"].empty?
+                        h2 Error 404
+                    else 
+                        h2 #{x["Title"]}
+                    end 
+                p #{x["Desc"]}
+                - if role == "Admin" || x["Uid"] == session[:id].to_i
+                    a href="gallery/#{x["Iid"]}/edit"
+                        button Edit post 
                     form method="post" action="/gallery/#{x["Iid"]}/delete"
-                        input type="submit" value="Delete"
-                - elsif role == "User"
-                    - if x["Uid"] == session[:id].to_i
-                        a href="gallery/#{x["Iid"]}/edit" 
-                            button Edit
-                        form method="post" action="/gallery/#{x["Iid"]}/delete"
-                            input type="submit" value="Delete"
-                    end
-                end
-                / else sats som visar edit på bara userns bilder
+                        input type="submit" value="Delete post"

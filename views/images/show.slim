@@ -1,10 +1,12 @@
 - if result["Title"].empty?
-    h2 404 
+    h2 Error 404 
 else 
     h2 #{result["Title"]}
 end
+p #{result["Desc"]}
 img src="#{result["Url"]}" onerror="this.src='/img/404.png'"
-a href="#{result["Iid"]}/edit" 
-    button Edit
-form method="post" action="/gallery/#{result["Iid"]}/delete"
-    input type="submit" value="Delete"
+- if role == "Admin" || result["Uid"] == session[:id].to_i
+    a href="#{result["Iid"]}/edit" 
+        button Edit post
+    form method="post" action="/gallery/#{result["Iid"]}/delete"
+        input type="submit" value="Delete post"

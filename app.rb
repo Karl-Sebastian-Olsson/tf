@@ -31,11 +31,10 @@ end
 
 post('/gallery/new') do 
     title = params[:title]
+    desc = params[:desc]
     url = params[:url]
-    # HÄR VEM SOM POSTAR TA UID
-    # OCKSÅ TEXT TILLÄGG 
     db = SQLite3::Database.new("model/db/store.db")
-    db.execute("INSERT INTO Images (Title, Url, Uid) VALUES (?, ?, ?)", title, url, session[:id].to_i)
+    db.execute("INSERT INTO Images (Title, Desc, Url, Uid) VALUES (?, ?, ?, ?)", title, desc, url, session[:id].to_i)
     redirect('/gallery')
 end 
 
@@ -43,8 +42,9 @@ get('/gallery/:id') do
     id = params[:id].to_i
     db = SQLite3::Database.new("model/db/store.db")
     db.results_as_hash = true
+    role = authorize(db, session[:id].to_i)
     result = db.execute("SELECT * FROM Images WHERE Iid = ?", id).first
-    slim(:"images/show", locals:{result:result})
+    slim(:"images/show", locals:{result:result, role:role})
 end 
 
 post('/gallery/:id/delete') do 
