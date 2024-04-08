@@ -14,14 +14,14 @@ end
 # I DATABASEN LÄGG TILL BILDBESKRIVNING AKA TEXT TILL BILDEN MAN LADDAR UPP
 # VARJE BILD SKA HA ETT USER ID ATTACHED SÅ VI VET VEM SOM UPLOADADE VAD 
 #KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
+# LÄGG TILL "MY POSTS" SIDA 
 
 get('/gallery') do 
-    Uid = session[:Uid].to_i
-
     db = SQLite3::Database.new("model/db/store.db")
     db.results_as_hash = true
     result = db.execute("SELECT * FROM Images")
-    slim(:"images/index", locals:{result:result})
+    admin = db.execute("SELECT Role FROM Users WHERE Uid = ?", session[:id].to_i).first["Role"] == "Admin"
+    slim(:"images/index", locals:{result:result, admin:admin})
 end 
 
 get('/gallery/new') do 
@@ -82,7 +82,7 @@ post('/user/new') do
     if pswd == pswd_confirm
         pswd_digest = BCrypt::Password.create(pswd)
         db = SQLite3::Database.new("model/db/store.db")
-        db.execute("INSERT INTO Users (Name, Email, Pswd) VALUES (?, ?, ?)", username, email, pswd_digest)
+        db.execute("INSERT INTO Users (Name, Email, Pswd, Role) VALUES (?, ?, ?, 'User')", username, email, pswd_digest)
         redirect('/')
     else 
         "FELAKTIGT LÖSENORD BRUH"
@@ -100,9 +100,9 @@ post('/login') do
     db.results_as_hash = true
     result = db.execute("SELECT * FROM Users WHERE name = ?", username).first
     pswd_digest = result["Pswd"]
-    Uid = result["Uid"]
+    id = result["Uid"]
     if BCrypt::Password.new(pswd_digest) == pswd
-        session[:Uid] = Uid
+        session[:id] = id
         redirect('/')
     else
         "FEL INLOGG NOOB" 
