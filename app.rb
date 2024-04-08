@@ -15,6 +15,7 @@ end
 # VARJE BILD SKA HA ETT USER ID ATTACHED SÅ VI VET VEM SOM UPLOADADE VAD 
 #KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
 # LÄGG TILL "MY POSTS" SIDA 
+# Tags images MANY TO MANY
 
 get('/gallery') do 
     db = SQLite3::Database.new("model/db/store.db")
@@ -109,3 +110,7 @@ post('/login') do
     end 
 end 
 
+get('/logout') do
+    session.clear
+    redirect('/')
+end
