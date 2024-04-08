@@ -8,14 +8,21 @@ h2 Gallery
                     - if x["Title"].empty?
                         h2 Mystical 404
                     else 
-                        h2 #{x["Title"]}
+                        h2 #{x["Title"]} #{role}
                     end
                 a href="gallery/#{x["Iid"]}"
                     img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
-                - if admin
+                - if role == "Admin"
                     a href="gallery/#{x["Iid"]}/edit" 
                         button Edit
                     form method="post" action="/gallery/#{x["Iid"]}/delete"
                         input type="submit" value="Delete"
+                - elsif role == "User"
+                    - if x["Uid"] == session[:id].to_i
+                        a href="gallery/#{x["Iid"]}/edit" 
+                            button Edit
+                        form method="post" action="/gallery/#{x["Iid"]}/delete"
+                            input type="submit" value="Delete"
+                    end
                 end
                 / else sats som visar edit på bara userns bilder

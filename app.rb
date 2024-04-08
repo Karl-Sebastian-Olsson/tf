@@ -19,9 +19,9 @@ end
 get('/gallery') do 
     db = SQLite3::Database.new("model/db/store.db")
     db.results_as_hash = true
-    result = db.execute("SELECT * FROM Images")
-    admin = db.execute("SELECT Role FROM Users WHERE Uid = ?", session[:id].to_i).first["Role"] == "Admin"
-    slim(:"images/index", locals:{result:result, admin:admin})
+    result = db.execute("SELECT * FROM Images") 
+    role = authorize(db, session[:id].to_i)
+    slim(:"images/index", locals:{result:result, role:role})
 end 
 
 get('/gallery/new') do 
@@ -34,7 +34,7 @@ post('/gallery/new') do
     # HÄR VEM SOM POSTAR TA UID
     # OCKSÅ TEXT TILLÄGG 
     db = SQLite3::Database.new("model/db/store.db")
-    db.execute("INSERT INTO Images (Title, Url) VALUES (?, ?)", title, url)
+    db.execute("INSERT INTO Images (Title, Url, Uid) VALUES (?, ?, ?)", title, url, session[:id].to_i)
     redirect('/gallery')
 end 
 
