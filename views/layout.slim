@@ -8,22 +8,19 @@ html lang="en"
     body
         a href="/"
             h1 | Father of Lies | 
+
         ol 
             li 
-                a href="/gallery" 
-                    button Gallery 
-            li 
-                a href="/gallery/new"
-                    button Post image
-            - if session[:id] == nil
+                a href="/gallery" The feed
+            - if session[:id] != nil 
                 li 
-                    a href="/user/new"
-                        button Register 
+                    a href="/gallery/new" Post image 
+                li
+                    a href="/logout" Log out
+            - else 
                 li 
-                    a href="/login"
-                        button Login 
-            - else
-                a href="/logout"
-                    button Log out
-            end  
+                    a href="/user/new" Sign up  
+                li 
+                    a href="/login" Login 
+            end 
         ==yield

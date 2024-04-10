@@ -16,6 +16,7 @@ end
 #KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
 # LÄGG TILL "MY POSTS" SIDA 
 # Tags images MANY TO MANY
+# LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR AAAAAAA
 
 get('/gallery') do 
     db = SQLite3::Database.new("model/db/store.db")
