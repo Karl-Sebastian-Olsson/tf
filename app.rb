@@ -11,7 +11,7 @@ get('/') do
     slim(:start)
 end 
 
-#KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
+# KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
 # LÄGG TILL "MY POSTS" SIDA 
 # Tags images MANY TO MANY
 # LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR 
@@ -80,13 +80,18 @@ post('/user/new') do
     email = params[:email]
     pswd = params[:pswd]
     pswd_confirm = params[:pswd_confirm]
-    if pswd == pswd_confirm
+    db = SQLite3::Database.new("model/db/store.db")
+    db.results_as_hash = true
+    usernames = db.execute("SELECT Name FROM Users")
+
+    username_exists = usernames.any? {|x| x["Name"] == username}
+
+    if !username_exists && pswd == pswd_confirm
         pswd_digest = BCrypt::Password.create(pswd)
-        db = SQLite3::Database.new("model/db/store.db")
         db.execute("INSERT INTO Users (Name, Email, Pswd, Role) VALUES (?, ?, ?, 'User')", username, email, pswd_digest)
         redirect('/')
     else 
-        "FELAKTIGT LÖSENORD BRUH"
+        "<p>Något gjorde du fel scrub</p>"
     end 
 end 
 

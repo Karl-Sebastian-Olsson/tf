@@ -34,6 +34,11 @@ body {
     width: 100%;
     height: fit-content;
     border: solid var(--main-light) 2px;
+    display: flex;
+}
+
+.h2_center {
+    text-align: center;
 }
 
 .gallery_card img {
@@ -46,7 +51,7 @@ body {
 header {
     display: flex;
     height: 100px;
-    width: 100vw;
+    width: 100%;
 
     justify-content: space-between;
     align-items: center;
