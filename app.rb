@@ -10,13 +10,11 @@ enable :sessions
 get('/') do 
     slim(:start)
 end 
- 
-# I DATABASEN LÄGG TILL BILDBESKRIVNING AKA TEXT TILL BILDEN MAN LADDAR UPP
-# VARJE BILD SKA HA ETT USER ID ATTACHED SÅ VI VET VEM SOM UPLOADADE VAD 
+
 #KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
 # LÄGG TILL "MY POSTS" SIDA 
 # Tags images MANY TO MANY
-# LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR AAAAAAA
+# LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR 
 
 get('/gallery') do 
     db = SQLite3::Database.new("model/db/store.db")
@@ -66,9 +64,10 @@ end
 post('/gallery/:id/update') do 
     id = params[:id].to_i
     title = params[:title]
+    desc = params[:desc]
     url = params[:url]
     db = SQLite3::Database.new("model/db/store.db")
-    db.execute("UPDATE Images SET Title=?,Url=? WHERE Iid = ?",title, url, id)
+    db.execute("UPDATE Images SET Title=?, Desc=?, Url=? WHERE Iid = ?", title, desc, url, id)
     redirect('/gallery')
 end 
 

@@ -4,23 +4,24 @@ html lang="en"
         meta charset="UTF-8"/
         meta name="viewport" content="width=device-width, initial-scale=1.0"/
         link rel="stylesheet" href="/css/style.css"/
-        title | Father of lies |
+        title Pixelpunk
     body
-        a href="/"
-            h1 | Father of Lies | 
+        header 
+            a href="/"
+                h1 Pixelpunk
 
-        ol 
-            li 
-                a href="/gallery" The feed
-            - if session[:id] != nil 
+            ol 
                 li 
-                    a href="/gallery/new" Post image 
-                li
-                    a href="/logout" Log out
-            - else 
-                li 
-                    a href="/user/new" Sign up  
-                li 
-                    a href="/login" Login 
-            end 
+                    a href="/gallery" The feed
+                - if session[:id] != nil 
+                    li 
+                        a href="/gallery/new" Post image 
+                    li
+                        a href="/logout" Log out
+                - else 
+                    li 
+                        a href="/user/new" Sign up  
+                    li 
+                        a href="/login" Login 
+                end 
         ==yield
