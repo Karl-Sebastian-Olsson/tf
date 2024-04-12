@@ -111,7 +111,7 @@ post('/login') do
         session[:id] = id
         redirect('/')
     else
-        "FEL INLOGG NOOB" 
+        "<p>FEL INLOGG NOOB</p>" 
     end 
 end 
 
