@@ -9,19 +9,20 @@ html lang="en"
         header 
             a href="/"
                 h1 Pixelpunk
-
-            ol 
-                li 
-                    a href="/gallery" The feed
+            nav   
+                a href="/gallery" The feed
+                span &#47;
                 - if session[:id] != nil 
-                    li 
-                        a href="/gallery/new" Post image 
-                    li
-                        a href="/logout" Log out
+                    a href="/gallery/new" Post image
+                    span &#47;
+                    a href="/user" My profile
+                    span &#47;
+                    a href="/logout" Log out
                 - else 
-                    li 
-                        a href="/user/new" Sign up  
-                    li 
-                        a href="/login" Login 
+                    a href="/user/new" Sign up
+                    span &#47;
+                    a href="/login" Login
                 end 
+        .line
+        .margin
         ==yield

@@ -2,20 +2,19 @@ h2.h2_center Gallery
 
 .gallery_wrapper
     - result.each do |x|
-        .gallery_container
-            .gallery_card
+        .gallery_card
+            a href="gallery/#{x["Iid"]}"
+                img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
+            div
                 a href="gallery/#{x["Iid"]}"
-                    img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
-                div
-                    a href="gallery/#{x["Iid"]}"
-                        - if x["Title"].empty?
-                            h2 Error 404 
-                        else 
-                            h2 #{x["Title"]}
-                        end 
-                    p #{x["Desc"]}
-                    - if role == "Admin" || x["Uid"] == session[:id].to_i
-                        a href="gallery/#{x["Iid"]}/edit"
-                            button Edit post 
-                        form method="post" action="/gallery/#{x["Iid"]}/delete"
-                            input type="submit" value="Delete post"
+                    - if x["Title"].empty?
+                        h2 Error 404 
+                    else 
+                        h2 #{x["Title"]}
+                    end 
+                p #{x["Desc"]}
+                - if role == "Admin" || x["Uid"] == session[:id].to_i
+                    a href="gallery/#{x["Iid"]}/edit"
+                        button Edit post 
+                    form method="post" action="/gallery/#{x["Iid"]}/delete"
+                        input type="submit" value="Delete post"

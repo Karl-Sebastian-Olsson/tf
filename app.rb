@@ -119,3 +119,7 @@ get('/logout') do
     session.clear
     redirect('/')
 end
+
+get ('/user') do
+    slim(:"/users/index")
+end 
