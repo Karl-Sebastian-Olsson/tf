@@ -20,7 +20,8 @@ get('/gallery') do
     db = db_define()
     result = db.execute("SELECT * FROM Images") 
     role = authorize(db, session[:id].to_i)
-    slim(:"images/index", locals:{result:result, role:role})
+    like = db.execute("SELECT * FROM User_image_junction WHERE Uid=?", session[:id].to_i)
+    slim(:"images/index", locals:{result:result, role:role, like:like})
 end 
 
 get('/gallery/new') do 
@@ -115,8 +116,16 @@ get('/logout') do
     redirect('/')
 end
 
-get ('/user') do
+get('/user') do
     db = db_define()
     result = db.execute("SELECT * FROM Images WHERE Uid=?", session[:id].to_i)
     slim(:"users/index", locals:{result:result})
+end 
+
+post('/gallery/:id/like') do
+    db = db_define()
+    uid = session[:id].to_i
+    iid = params[:id].to_i
+    db.execute("INSERT INTO User_image_junction (Uid, Iid) VALUES (?, ?)", uid, iid)
+    redirect("/gallery/#{iid}")
 end 

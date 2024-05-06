@@ -17,3 +17,6 @@ h2.h2_center Gallery
                     button Edit post 
                 form method="post" action="/gallery/#{x["Iid"]}/delete"
                     input type="submit" value="Delete post"
+            - if !like.any? { |hash| hash["Iid"] == x["Iid"] } && role != "Guest"
+                form action="/gallery/#{x["Iid"]}/like" method="post" 
+                    input type="submit" value="Like"
