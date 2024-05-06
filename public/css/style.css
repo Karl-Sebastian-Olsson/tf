@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-.vt323-regular {
-    font-family: "VT323", monospace;
-    font-weight: 400;
-    font-style: normal;
-} 
-/* #FÖRMODLIGEN TABORT   */
-
 :root {
     --main-light: #fff;
     --main-dark: #222;
@@ -35,6 +28,8 @@ header {
 
     height: 80px;
     width: 100%;
+
+    border-bottom: solid #aaa 1px;
 }
 
 header a {
@@ -50,15 +45,6 @@ header a:hover {
 nav * {
     margin-left: 20px;
     font-size: 1.5rem;
-}
-
-.line {
-    position: fixed;
-
-    margin-top: 80px;
-    width: 100%;
-    height: 1px;
-    background-color: #aaa;
 }
 
 .margin {

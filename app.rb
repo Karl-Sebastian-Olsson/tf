@@ -11,10 +11,10 @@ get('/') do
     slim(:start)
 end 
 
-# KOLLA OM UNSERNAME REDAN FINNS ELLER INTE 
+# KOLLA OM UNSERNAME REDAN FINNS ELLER INTE -- UTVECKLA DET SOM FINNS 
 # LÄGG TILL "MY POSTS" SIDA 
-# Tags images MANY TO MANY
-# LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR 
+# Liked images MANY TO MANY
+# LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR på bilder 
 
 get('/gallery') do 
     db = SQLite3::Database.new("model/db/store.db")
@@ -121,5 +121,8 @@ get('/logout') do
 end
 
 get ('/user') do
-    slim(:"/users/index")
+    db = SQLite3::Database.new("model/db/store.db")
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM Images WHERE Uid=?", session[:id].to_i)
+    slim(:"users/index", locals:{result:result})
 end 
