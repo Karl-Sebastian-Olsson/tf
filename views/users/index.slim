@@ -1,4 +1,17 @@
 p hjgrfe
 
 - result.each do |x|
-    img src="#{x["Url"]}" onerror="this.src='/img/404.png'"/
+    a href="gallery/#{x["Iid"]}"
+        img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
+    div
+        a href="gallery/#{x["Iid"]}"
+            - if x["Title"].empty?
+                h2 Error 404 
+            else 
+                h2 #{x["Title"]}
+            end 
+        p #{x["Desc"]}
+        a href="gallery/#{x["Iid"]}/edit"
+            button Edit post 
+        form method="post" action="/gallery/#{x["Iid"]}/delete"
+            input type="submit" value="Delete post"

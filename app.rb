@@ -17,8 +17,7 @@ end
 # LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR på bilder 
 
 get('/gallery') do 
-    db = SQLite3::Database.new("model/db/store.db")
-    db.results_as_hash = true
+    db = db_define()
     result = db.execute("SELECT * FROM Images") 
     role = authorize(db, session[:id].to_i)
     slim(:"images/index", locals:{result:result, role:role})
@@ -39,8 +38,7 @@ end
 
 get('/gallery/:id') do 
     id = params[:id].to_i
-    db = SQLite3::Database.new("model/db/store.db")
-    db.results_as_hash = true
+    db = db_define()
     role = authorize(db, session[:id].to_i)
     result = db.execute("SELECT * FROM Images WHERE Iid = ?", id).first
     slim(:"images/show", locals:{result:result, role:role})
@@ -55,8 +53,7 @@ end
 
 get('/gallery/:id/edit') do 
     id = params[:id].to_i
-    db = SQLite3::Database.new("model/db/store.db")
-    db.results_as_hash = true
+    db = db_define()
     result = db.execute("SELECT * FROM Images WHERE Iid = ?", id).first
     slim(:"/images/edit",locals:{result:result})
 end 
@@ -80,8 +77,7 @@ post('/user/new') do
     email = params[:email]
     pswd = params[:pswd]
     pswd_confirm = params[:pswd_confirm]
-    db = SQLite3::Database.new("model/db/store.db")
-    db.results_as_hash = true
+    db = db_define()
     usernames = db.execute("SELECT Name FROM Users")
 
     username_exists = usernames.any? {|x| x["Name"] == username}
@@ -102,8 +98,7 @@ end
 post('/login') do 
     username = params[:user]
     pswd = params[:pswd]
-    db = SQLite3::Database.new("model/db/store.db")
-    db.results_as_hash = true
+    db = db_define()
     result = db.execute("SELECT * FROM Users WHERE name = ?", username).first
     pswd_digest = result["Pswd"]
     id = result["Uid"]
@@ -121,8 +116,7 @@ get('/logout') do
 end
 
 get ('/user') do
-    db = SQLite3::Database.new("model/db/store.db")
-    db.results_as_hash = true
+    db = db_define()
     result = db.execute("SELECT * FROM Images WHERE Uid=?", session[:id].to_i)
     slim(:"users/index", locals:{result:result})
 end 
