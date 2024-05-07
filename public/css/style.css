@@ -18,6 +18,61 @@ body {
     color: var(--main-light);
 }
 
+.screen {
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+
+    background-image: radial-gradient(transparent 75%, #000);
+}
+
+.scanlines {
+    position: fixed;
+    z-index: 10;
+
+    opacity: .2;
+
+    width: 100%;
+    height: 100%;
+
+    background-image: url(/img/scanlines.png);
+}
+
+.scan {
+    width: 100%;
+    height: 100%;
+
+    animation: scan 10s infinite linear;
+}
+
+.scanbar {
+    width: 100%;
+    height: 40px;
+
+    opacity: .1;
+    background-image: linear-gradient(to top, #ffffff, transparent);
+}
+
+@keyframes scan {
+    0% {
+        position: relative;
+        top: -40px;
+    }
+    50% {
+        transform: translateY(100%);
+        position: relative;
+        bottom: 0;
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    } 
+}
+
 header {
     position: fixed;
     background-color: var(--main-dark);
@@ -107,10 +162,8 @@ nav * {
 .posted_wrapper {
     width: 45%;
     height: fit-content;
-    
+
     display: flex;
-    
-    background-color: red;
 }
 
 .user_post {
