@@ -120,8 +120,10 @@ end
 get('/user') do
     db = db_define()
     result = db.execute("SELECT * FROM Images WHERE Uid=?", session[:id].to_i)
-    like = db.execute("SELECT * FROM User_image_junction WHERE Uid=?", session[:id].to_i)
-    slim(:"users/index", locals:{result:result, like:like})
+    role = authorize(db, session[:id].to_i)
+    like = db.execute("SELECT Iid FROM User_image_junction WHERE Uid=?", session[:id].to_i)
+    liked = db.execute("SELECT * FROM Images JOIN User_image_junction ON Images.Iid = User_image_junction.Iid WHERE User_image_junction.Uid = 1")
+    slim(:"users/index", locals:{result:result, role:role, like:like, liked:liked})
 end 
 
 post('/gallery/:id/like') do

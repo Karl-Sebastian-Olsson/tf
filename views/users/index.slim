@@ -1,7 +1,7 @@
 .user_wrapper 
     .posted_wrapper
         - result.each do |x|
-            .user_post
+            .posts
                 a href="gallery/#{x["Iid"]}"
                     img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
                 .gallery_div
@@ -23,5 +23,24 @@
                         - else
                             form action="/gallery/#{x["Iid"]}/unlike" method="post" 
                                 input type="submit" value="Unlike"
-    .liked_wrapper
-        h2 Display liked here 
+    .liked_wrapper 
+        - liked.each do |x|
+            .posts
+                a href="gallery/#{x["Iid"]}"
+                    img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
+                .gallery_div
+                    a href="gallery/#{x["Iid"]}"
+                        - if x["Title"].empty?
+                            h2 Error 404 
+                        else 
+                            h2 #{x["Title"]}
+                        end 
+                    p #{x["Desc"]}
+                    .button_wrapper
+                        - if role == "Admin" || x["Uid"] == session[:id].to_i
+                            a href="gallery/#{x["Iid"]}/edit"
+                                button Edit post 
+                            form method="post" action="/gallery/#{x["Iid"]}/delete"
+                                input type="submit" value="Delete post"
+                        form action="/gallery/#{x["Iid"]}/unlike" method="post" 
+                            input type="submit" value="Unlike"
