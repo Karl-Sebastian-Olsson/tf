@@ -1,22 +1,26 @@
-.gallery_wrapper 
-    - result.each do |x|
-        a href="gallery/#{x["Iid"]}"
-            img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
-        div
-            a href="gallery/#{x["Iid"]}"
-                - if x["Title"].empty?
-                    h2 Error 404 
-                else 
-                    h2 #{x["Title"]}
-                end 
-            p #{x["Desc"]}
-            a href="gallery/#{x["Iid"]}/edit"
-                button Edit post 
-            form method="post" action="/gallery/#{x["Iid"]}/delete"
-                input type="submit" value="Delete post"
-            - if !like.any? { |hash| hash["Iid"] == x["Iid"] }
-                form action="/gallery/#{x["Iid"]}/like" method="post" 
-                    input type="submit" value="Like"
-            - else
-                form action="/gallery/#{x["Iid"]}/unlike" method="post" 
-                    input type="submit" value="Unlike"
+.user_wrapper 
+    .posted_wrapper
+        - result.each do |x|
+            .user_post
+                a href="gallery/#{x["Iid"]}"
+                    img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
+                .gallery_div
+                    a href="gallery/#{x["Iid"]}"
+                        - if x["Title"].empty?
+                            h2 Error 404 
+                        else 
+                            h2 #{x["Title"]}
+                        end 
+                    p #{x["Desc"]}
+                    .button_wrapper
+                        a href="gallery/#{x["Iid"]}/edit"
+                            button Edit post 
+                        form method="post" action="/gallery/#{x["Iid"]}/delete"
+                            input type="submit" value="Delete post"
+                        - if !like.any? { |hash| hash["Iid"] == x["Iid"] }
+                            form action="/gallery/#{x["Iid"]}/like" method="post" 
+                                input type="submit" value="Like"
+                        - else
+                            form action="/gallery/#{x["Iid"]}/unlike" method="post" 
+                                input type="submit" value="Unlike"
+    .liked_wrapper
