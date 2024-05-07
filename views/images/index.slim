@@ -2,21 +2,26 @@ h2.h2_center Gallery
 
 .gallery_wrapper
     - result.each do |x|
-        a href="gallery/#{x["Iid"]}"
-            img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
-        div
+        .gallery_post
             a href="gallery/#{x["Iid"]}"
-                - if x["Title"].empty?
-                    h2 Error 404 
-                else 
-                    h2 #{x["Title"]}
-                end 
-            p #{x["Desc"]}
-            - if role == "Admin" || x["Uid"] == session[:id].to_i
-                a href="gallery/#{x["Iid"]}/edit"
-                    button Edit post 
-                form method="post" action="/gallery/#{x["Iid"]}/delete"
-                    input type="submit" value="Delete post"
-            - if !like.any? { |hash| hash["Iid"] == x["Iid"] } && role != "Guest"
-                form action="/gallery/#{x["Iid"]}/like" method="post" 
-                    input type="submit" value="Like"
+                img src="#{x["Url"]}" onerror="this.src='/img/404.png'"
+            .gallery_div
+                a href="gallery/#{x["Iid"]}"
+                    - if x["Title"].empty?
+                        h2 Error 404 
+                    else 
+                        h2 #{x["Title"]}
+                    end 
+                p #{x["Desc"]}
+                .button_wrapper
+                    - if role == "Admin" || x["Uid"] == session[:id].to_i
+                        a href="gallery/#{x["Iid"]}/edit"
+                            button Edit post 
+                        form method="post" action="/gallery/#{x["Iid"]}/delete"
+                            input type="submit" value="Delete post"
+                    - if !like.any? { |hash| hash["Iid"] == x["Iid"] } && role != "Guest"
+                        form action="/gallery/#{x["Iid"]}/like" method="post" 
+                            input type="submit" value="Like"
+                    - elsif role != "Guest" 
+                        form action="/gallery/#{x["Iid"]}/unlike" method="post" 
+                            input type="submit" value="Unlike"

@@ -51,6 +51,45 @@ nav * {
     padding-top: 80px;
 }
 
+.gallery_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 90%;
+    margin: 0 auto;
+    height: fit-content;
+}
+
+.gallery_post {
+    background-color: #00000077;
+    font-size: 1.5rem;
+
+    width: 25%;
+    height: 500px;
+
+    word-wrap: break-word;
+}
+
+.gallery_post img {
+    width: 100%;
+    height: 60%;
+
+    object-fit: cover;
+}
+
+.gallery_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 35%;
+}
+
+.button_wrapper {
+    display: flex;
+}
+
 /* .gallery_wrapper {
     display: flex;
     flex-direction: column;

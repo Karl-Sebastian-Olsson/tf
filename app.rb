@@ -42,7 +42,8 @@ get('/gallery/:id') do
     db = db_define()
     role = authorize(db, session[:id].to_i)
     result = db.execute("SELECT * FROM Images WHERE Iid = ?", id).first
-    slim(:"images/show", locals:{result:result, role:role})
+    like = db.execute("SELECT * FROM User_image_junction WHERE Uid=?", session[:id].to_i)
+    slim(:"images/show", locals:{result:result, role:role, like:like})
 end 
 
 post('/gallery/:id/delete') do 
@@ -119,7 +120,8 @@ end
 get('/user') do
     db = db_define()
     result = db.execute("SELECT * FROM Images WHERE Uid=?", session[:id].to_i)
-    slim(:"users/index", locals:{result:result})
+    like = db.execute("SELECT * FROM User_image_junction WHERE Uid=?", session[:id].to_i)
+    slim(:"users/index", locals:{result:result, like:like})
 end 
 
 post('/gallery/:id/like') do
@@ -127,5 +129,13 @@ post('/gallery/:id/like') do
     uid = session[:id].to_i
     iid = params[:id].to_i
     db.execute("INSERT INTO User_image_junction (Uid, Iid) VALUES (?, ?)", uid, iid)
+    redirect("/gallery/#{iid}")
+end 
+
+post('/gallery/:id/unlike') do
+    db = db_define()
+    uid = session[:id].to_i
+    iid = params[:id].to_i
+    db.execute("DELETE FROM User_image_junction WHERE Uid = ? AND Iid = ?", uid, iid)
     redirect("/gallery/#{iid}")
 end 
