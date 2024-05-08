@@ -5,6 +5,8 @@ require 'sqlite3'
 require 'bcrypt'
 require_relative './model/model.rb'
 
+include Modules
+
 enable :sessions 
 
 get('/') do 
@@ -12,16 +14,11 @@ get('/') do
 end 
 
 # KOLLA OM UNSERNAME REDAN FINNS ELLER INTE -- UTVECKLA DET SOM FINNS 
-# LÄGG TILL "MY POSTS" SIDA 
 # FLYTTA TILL MODELS
 # LÄGG TIL LATT MAN KAN UPPLOADA BILDER ISTÄLLET FÖR LÄNKAR på bilder 
 
 get('/gallery') do 
-    db = db_define()
-    result = db.execute("SELECT * FROM Images") 
-    role = authorize(db, session[:id].to_i)
-    like = db.execute("SELECT * FROM User_image_junction WHERE Uid=?", session[:id].to_i)
-    slim(:"images/index", locals:{result:result, role:role, like:like})
+    show_all_images(session[:id])
 end 
 
 get('/gallery/new') do 
@@ -32,7 +29,7 @@ post('/gallery/new') do
     title = params[:title]
     desc = params[:desc]
     url = params[:url]
-    db = SQLite3::Database.new("model/db/store.db")
+    db = db_define()
     db.execute("INSERT INTO Images (Title, Desc, Url, Uid) VALUES (?, ?, ?, ?)", title, desc, url, session[:id].to_i)
     redirect('/gallery')
 end 
@@ -122,7 +119,7 @@ get('/user') do
     result = db.execute("SELECT * FROM Images WHERE Uid=?", session[:id].to_i)
     role = authorize(db, session[:id].to_i)
     like = db.execute("SELECT Iid FROM User_image_junction WHERE Uid=?", session[:id].to_i)
-    liked = db.execute("SELECT * FROM Images JOIN User_image_junction ON Images.Iid = User_image_junction.Iid WHERE User_image_junction.Uid = 1")
+    liked = db.execute("SELECT * FROM Images JOIN User_image_junction ON Images.Iid = User_image_junction.Iid WHERE User_image_junction.Uid = ?", session[:id].to_i)
     slim(:"users/index", locals:{result:result, role:role, like:like, liked:liked})
 end 
 

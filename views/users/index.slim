@@ -1,3 +1,6 @@
+.user_headers
+    h2 My posts
+    h2 Liked posts
 .user_wrapper 
     .posted_wrapper
         - result.each do |x|
@@ -37,10 +40,5 @@
                         end 
                     p #{x["Desc"]}
                     .button_wrapper
-                        - if role == "Admin" || x["Uid"] == session[:id].to_i
-                            a href="gallery/#{x["Iid"]}/edit"
-                                button Edit post 
-                            form method="post" action="/gallery/#{x["Iid"]}/delete"
-                                input type="submit" value="Delete post"
                         form action="/gallery/#{x["Iid"]}/unlike" method="post" 
                             input type="submit" value="Unlike"
