@@ -158,11 +158,9 @@ nav * {
 
 .user_wrapper {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
 
     width: 100%;
-    margin: 0 auto;
     height: fit-content;
 }
 
@@ -171,6 +169,7 @@ nav * {
     height: fit-content;
 
     display: flex;
+    flex-wrap: wrap;
 }
 
 .posts {
@@ -208,77 +207,5 @@ nav * {
     flex-wrap: wrap;
 
     width: 45%;
-    height: 500px;
-}
-
-/* .gallery_wrapper {
-    display: flex;
-    flex-direction: column;
-
-    margin: 0 auto;
-    padding: 5px;
-
-    width: 70%;
     height: fit-content;
-    border: solid 2px var(--main-light);
 }
-
-.gallery_container {
-    padding: 5px;
-}
-
-.gallery_card {
-    width: 100%;
-    height: fit-content;
-    border: solid var(--main-light) 2px;
-    display: flex;
-}
-
-.h2_center {
-    text-align: center;
-}
-
-.gallery_card img {
-    height: 300px;
-    width: auto;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-}
-
-header {
-    display: flex;
-    height: 100px;
-    width: 100%;
-
-    justify-content: space-between;
-    align-items: center;
-
-    background-image: linear-gradient(#111, #1e1e1e);
-}
-
-ol {
-    list-style-type: none;
-}
-
-li {
-    border: var(--main-light) 2px solid;
-    padding: 10px 30px;
-    margin: 0 100px;
-    display: inline;
-}
-
-a {
-    color: var(--main-light);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.start_wrapper{
-    width: 70%;
-    margin: 20px auto;
-    padding: 20px 40px;
-    border: var(--main-light) solid 2px;
-} */
