@@ -9,6 +9,8 @@ include Modules
 
 enable :sessions 
 
+INTE FINAL
+
 get('/') do 
     slim(:start)
 end 
