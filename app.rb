@@ -146,6 +146,13 @@ get('/user') do
     user_gallery(session[:id])
 end 
 
+
+#HHHHHHHHHHdfljgskfjghpdfijghsdpfighsdfjghHHHH
+
+post('/user/delete') do
+    delete_user(session[:id])
+end 
+
 # Gör att man kan gilla en specifik bild
 #
 # @param id [Integer] ID för den specifika bilden

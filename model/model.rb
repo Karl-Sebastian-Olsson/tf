@@ -164,3 +164,10 @@ module Modules
         slim(:"users/index", locals:{result:result, role:role, like:like, liked:liked})
     end
 end
+
+def delete_user(session_id)
+    db = db_define()
+    db.execute("DELETE FROM Users WHERE Uid = ?", session_id.to_i)
+    session.clear
+    redirect('/')
+end
