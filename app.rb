@@ -18,6 +18,56 @@ get('/') do
     slim(:start)
 end 
 
+# Innan åtkomst av användarsidan kontrollerar detta block om användaren är inloggad.
+# Om användaren inte är inloggad, skickas ett felmeddelande och en omdirigering till startsidan.
+
+before('/user') do
+    unless logged_in?
+      flash[:error] = "You must be logged in to access this page."
+      redirect '/'
+    end
+end
+  
+# Innan åtkomst av redigeringsfunktionen för en bild kontrollerar detta block om användaren har rätt att redigera bilden.
+# Om inte, skickas ett felmeddelande och användaren omdirigeras till bildens visningssida.
+
+before('/gallery/:id/edit') do
+    unless can_edit_image?(params[:id].to_i)
+      flash[:error] = "You are not authorized to edit this image."
+      redirect "/gallery/#{params[:id]}"
+    end
+end
+  
+# Innan uppdatering av en bild kontrollerar detta block om användaren har rätt att uppdatera bilden.
+# Om inte, skickas ett felmeddelande och användaren omdirigeras till bildens visningssida.
+
+before('/gallery/:id/update') do
+    unless can_edit_image?(params[:id].to_i)
+      flash[:error] = "You are not authorized to update this image."
+      redirect "/gallery/#{params[:id]}"
+    end
+end
+  
+# Innan borttagning av en bild kontrollerar detta block om användaren har rätt att ta bort bilden.
+# Om inte, skickas ett felmeddelande och användaren omdirigeras till bildens visningssida.
+
+before('/gallery/:id/delete') do
+    unless can_edit_image?(params[:id].to_i)
+      flash[:error] = "You are not authorized to delete this image."
+      redirect "/gallery/#{params[:id]}"
+    end
+end
+
+# Innan åtkomst av vissa bildrelaterade funktioner kontrollerar detta block om användaren är inloggad.
+# Om inte, skickas ett felmeddelande och användaren omdirigeras till inloggningssidan.
+  
+before(['/gallery/new', '/gallery/:id/like', '/gallery/:id/unlike']) do
+    unless logged_in?
+        flash[:error] = "You must be logged in to perform this action."
+        redirect '/login'
+    end
+end
+
 # Visar alla bilder som tillgängliga 
 #
 # @param session_id [string] Lokalt sparad sträng för session id 
@@ -146,8 +196,10 @@ get('/user') do
     user_gallery(session[:id])
 end 
 
-
-#HHHHHHHHHHdfljgskfjghpdfijghsdpfighsdfjghHHHH
+# Hanterar borttagningen av en användarprofil.
+# 
+# @param session_id [String] Användarens session-id som identifierar användaren vars profil ska tas bort
+# @return [Redirect] Omdirigerar användaren till startsidan efter att profilen har tagits bort
 
 post('/user/delete') do
     delete_user(session[:id])
@@ -159,7 +211,7 @@ end
 # @param session_id [String] Användarens session-id
 # @param action [String] Aktionen att utföra ('like')
 # @see Modules#manage_like
-# @return [Redirect] Omdirigerar användaren tillbaka till bilden --------------> Ändra till redirec till tidigare sida 
+# @return [Redirect] Omdirigerar användaren tillbaka till bilden 
 
 post('/gallery/:id/like') do
     manage_like(session[:id].to_i, params[:id].to_i, 'like')

@@ -163,11 +163,36 @@ module Modules
         liked = db.execute("SELECT * FROM Images JOIN User_image_junction ON Images.Iid = User_image_junction.Iid WHERE User_image_junction.Uid = ?", session_id.to_i)
         slim(:"users/index", locals:{result:result, role:role, like:like, liked:liked})
     end
-end
+    
+    # Tar bort en användare från databasen.
+    #
+    # @param session_id [Integer] Användarens session-ID
+    # @return [Redirect] Rensar sessionen och omdirigerar användaren till startsidan efter att användaren har tagits bort
+    
+    def delete_user(session_id)
+        db = db_define()
+        db.execute("DELETE FROM Users WHERE Uid = ?", session_id.to_i)
+        session.clear
+        redirect('/')
+    end
+    
+    # Kontrollerar om en användare är inloggad genom att se om det finns ett session-ID lagrat.
+    #
+    # @return [Boolean] Sant om användaren är inloggad, falskt annars
+    
+    def logged_in?
+        session[:id] != nil
+    end
 
-def delete_user(session_id)
-    db = db_define()
-    db.execute("DELETE FROM Users WHERE Uid = ?", session_id.to_i)
-    session.clear
-    redirect('/')
+    # Kontrollerar om en användare har behörighet att redigera en specifik bild.
+    #
+    # @param image_id [Integer] ID för den bild som kontrolleras
+    # @return [Boolean] Sant om användaren har behörighet att redigera bilden, falskt annars
+   
+    def can_edit_image?(image_id)
+        return false unless logged_in?
+        db = db_define()
+        result = db.execute("SELECT * FROM Images WHERE Iid = ? AND Uid = ?", [image_id, session[:id]]).first
+        result != nil
+    end
 end
